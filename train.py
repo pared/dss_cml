@@ -50,7 +50,7 @@ def write_confusion_matrix(y_test, y_pred, filename="cf.png"):
 (x_train, y_train), (x_test, y_test) = load_data()
 model = get_model()
 
-model.fit(x_train, y_train, batch_size=128, epochs=1)
+model.fit(x_train, y_train, batch_size=128, epochs=5)
 score = model.evaluate(x_test, y_test)
 
 y_pred = model.predict(x_test)
