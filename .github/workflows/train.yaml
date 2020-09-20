@@ -8,12 +8,12 @@ on:
 env: 
   repo_token: ${{ secrets.GITHUB_TOKEN }} 
 
-strategy:
-  matrix:
-    revision: ['master', '']
-
 jobs:
-  train-current:
+  strategy:
+    matrix:
+      revision: ['master', '']
+
+  train:
     runs-on: ubuntu-18.04
     container: docker://dvcorg/cml-py3:latest
     steps:
