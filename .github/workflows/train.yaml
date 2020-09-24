@@ -24,7 +24,7 @@ jobs:
           dvc metrics diff --target metrics.json --old --show-md >> repor.md
 
           echo "### Confusion matrix" >> report.md
-          dvc plots diff --show-vega -x actual -y predicted --targets confusion_matrix.csv -- master dvc >> vega.json
+          dvc plots diff --template confusion --show-vega -x actual -y predicted --targets confusion_matrix.csv -- master dvc >> vega.json
 
           vl2png vega.json -s 1.5 | cml-publish --md >> report.md
           cml-send-comment report.md
