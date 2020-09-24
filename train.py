@@ -1,3 +1,4 @@
+import json
 from keras.datasets import mnist
 from keras.models import Sequential 
 from keras.layers.core import Dense, Activation
@@ -41,7 +42,7 @@ def get_model():
     metrics=['accuracy'], optimizer='sgd')
     return model
 
-def write_confusion_matrix(y_test, y_pred, filename="cf.png"):
+def write_confusion_matrix(y_test, y_pred, filename="confusion_matrix.png"):
     cls_pred = y_pred.argmax(axis=-1)
     cls_test = y_test.argmax(axis=-1)
 
@@ -56,6 +57,16 @@ def write_confusion_matrix(y_test, y_pred, filename="cf.png"):
     plt.title('Confusion matrix')
     plt.savefig(filename)
     
+
+def write_confusion_matrix_csv(y_test, y_pred, filename="confusion_matrix.csv"):
+    cls_pred = y_pred.argmax(axis=-1)
+    cls_test = y_test.argmax(axis=-1)
+
+    with open(filename, "w") as fd:
+        fd.write("actual,predicted\n")
+        for i in range(len(cls_pred)):
+            fd.write(f"{cls_test[i]},{cls_pred[i]}\n")
+
 (x_train, y_train), (x_test, y_test) = load_data()
 model = get_model()
 
@@ -63,7 +74,8 @@ model.fit(x_train, y_train, batch_size=128, epochs=1)
 score = model.evaluate(x_test, y_test)
 
 y_pred = model.predict(x_test)
-write_confusion_matrix(y_test, y_pred, 'confusion_matrix.png')
+write_confusion_matrix(y_test, y_pred)
+write_confusion_matrix_csv(y_test, y_pred) 
 
 accuracy = score[1]
 with open("accuracy.txt", "w") as fd:
