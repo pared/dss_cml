@@ -21,7 +21,7 @@ jobs:
 
           echo "## Current version" > report.md
           echo "### Accuracy" >> report.md
-          cat metrics.json >> report.md
+          jq -r ".accuracy" metrics.json >> report.md
 
           echo "### Confusion matrix" >> report.md
           cml-publish confusion_matrix.png --md >> report.md
@@ -41,7 +41,7 @@ jobs:
 
           echo "## Master version" > report.md
           echo "### Accuracy" >> report.md
-          cat metrics.json >> report.md
+          jq -r ".accuracy" metrics.json >> report.md
 
           echo "### Confusion matrix" >> report.md
           cml-publish confusion_matrix.png --md >> report.md
