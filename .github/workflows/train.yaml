@@ -21,7 +21,7 @@ jobs:
 
           echo "### Accuracy" >> report.md
           git fetch --prune
-          dvc metrics diff --target metrics.json --old --show-md >> repor.md
+          dvc metrics diff --target metrics.json --old --show-md >> report.md
 
           echo "### Confusion matrix" >> report.md
           dvc plots diff --template confusion --show-vega -x actual -y predicted --targets confusion_matrix.csv -- master dvc >> vega.json
