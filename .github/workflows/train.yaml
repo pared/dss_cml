@@ -17,32 +17,13 @@ jobs:
       - name: prepare current version report
         run: |
           pip install -r requirements.txt
-          python train.py
+          dvc repro train_model
 
-          echo "## Current version" > report.md
           echo "### Accuracy" >> report.md
-          cat metrics.json >> report.md
+          dvc metrics diff --target metrics.json --old --show-md >> repor.md
 
           echo "### Confusion matrix" >> report.md
-          cml-publish confusion_matrix.png --md >> report.md
-          cml-send-comment report.md
+          dvc plots diff --targets confusion_matrix.csv -- master dvc --show-vega -x actual -y predicted >> vega.json
 
-  train-master:
-    runs-on: ubuntu-18.04
-    container: docker://dvcorg/cml-py3:latest
-    steps:
-      - uses: actions/checkout@v2.3.2
-        with:
-          ref: 'master'
-      - name: prepare master report
-        run: |
-          pip install -r requirements.txt
-          python train.py
-
-          echo "## Master version" > report.md
-          echo "### Accuracy" >> report.md
-          cat metrics.json >> report.md
-
-          echo "### Confusion matrix" >> report.md
-          cml-publish confusion_matrix.png --md >> report.md
+          vl2png vega.json -s 1.5 | cml-publish --md >> report.md
           cml-send-comment report.md
