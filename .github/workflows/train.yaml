@@ -20,7 +20,7 @@ jobs:
           python train.py
           echo "## Current version" > report.md
           echo "### Accuracy" >> report.md
-          cat accuracy.txt >> report.md
+          cat metrics.json >> report.md
           echo "### Confusion matrix" >> report.md
           cml-publish confusion_matrix.png --md >> report.md
           cml-send-comment report.md
@@ -37,7 +37,7 @@ jobs:
           python train.py
           echo "## Master version" > report.md
           echo "### Accuracy" >> report.md
-          cat accuracy.txt >> report.md
+          cat metrics.json >> report.md
           echo "### Confusion matrix" >> report.md
           cml-publish confusion_matrix.png --md >> report.md
           cml-send-comment report.md
