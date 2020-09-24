@@ -20,6 +20,7 @@ jobs:
           dvc repro train_model
 
           echo "### Accuracy" >> report.md
+          git fetch --prune
           dvc metrics diff --target metrics.json --old --show-md >> repor.md
 
           echo "### Confusion matrix" >> report.md
