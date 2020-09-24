@@ -1,0 +1,10 @@
+train_model:
+  cmd: python train.py
+  deps:
+  - path: train.py
+    md5: 5837cd3c8502b383aa6843e790828bac
+  outs:
+  - path: confusion_matrix.csv
+    md5: 31919cb3f5ee5b60c7d5324ff8618620
+  - path: metrics.json
+    md5: 09578bc9d01339182542c4da466133dd
