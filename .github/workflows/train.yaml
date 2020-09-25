@@ -21,32 +21,11 @@ jobs:
           pip install -r requirements.txt
           python train.py
 
-          echo "## Current version" > report.md
           echo "### Accuracy" >> report.md
-          jq -r ".accuracy" metrics.json >> report.md
+          dvc metrics diff master --targets metrics.json --show-md >> report.md
 
           echo "### Confusion matrix" >> report.md
-          cml-publish confusion_matrix.png --md >> report.md
+          dvc plots diff master --targets confusion_matrix.csv --template confusion -x actual -y predicted --show-vega >> vega.json
+          vl2png vega.json | cml-publish --md >> report.md
           cml-send-comment report.md
 
-  train-master:
-    runs-on: ubuntu-18.04
-    container: docker://dvcorg/cml-py3:latest
-    steps:
-      - uses: actions/checkout@v2.3.2
-        with:
-          ref: 'master'
-      - name: prepare master report
-        run: |
-          apt-get update 
-          apt-get install jq
-          pip install -r requirements.txt
-          python train.py
-
-          echo "## Master version" > report.md
-          echo "### Accuracy" >> report.md
-          jq -r ".accuracy" metrics.json >> report.md
-
-          echo "### Confusion matrix" >> report.md
-          cml-publish confusion_matrix.png --md >> report.md
-          cml-send-comment report.md
