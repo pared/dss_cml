@@ -19,6 +19,7 @@ jobs:
           pip install -r requirements.txt
           dvc repro train_model
 
+          git fetch --prune
           echo "### Accuracy" >> report.md
           dvc metrics diff master --targets metrics.json --old --show-md >> report.md
 
